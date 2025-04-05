@@ -77,7 +77,7 @@ export default function SurveyPage() {
           <Alert className="mb-6">
             <Info className="h-4 w-4" />
             <AlertDescription>
-              Complete this survey to discover which bathing product best matches your personality! Find out if you're more of a luxurious bath bomb or a practical shower gel.
+              Complete this survey to discover which bathing product best matches your personality! Find out if you&apos;re more of a luxurious bath bomb or a practical shower gel.
             </AlertDescription>
           </Alert>
 
