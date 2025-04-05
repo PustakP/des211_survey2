@@ -6,8 +6,10 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Button } from "@/components/ui/button";
 import { ArrowLeft } from "lucide-react";
 import Link from "next/link";
+import { Suspense } from 'react';
 
-export default function ResultPage() {
+// separate component for the main content to use Suspense
+function ResultContent() {
   const searchParams = useSearchParams();
   const dataStr = searchParams.get('data');
   const data = dataStr ? JSON.parse(dataStr) : null;
@@ -66,5 +68,28 @@ export default function ResultPage() {
         </CardContent>
       </Card>
     </div>
+  );
+}
+
+// loading component
+function Loading() {
+  return (
+    <div className="max-w-2xl mx-auto p-4">
+      <Card>
+        <CardHeader>
+          <CardTitle>Loading...</CardTitle>
+          <CardDescription>Please wait while we process your results</CardDescription>
+        </CardHeader>
+      </Card>
+    </div>
+  );
+}
+
+// main page component with Suspense
+export default function ResultPage() {
+  return (
+    <Suspense fallback={<Loading />}>
+      <ResultContent />
+    </Suspense>
   );
 }
