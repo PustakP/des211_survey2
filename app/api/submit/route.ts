@@ -1,7 +1,18 @@
 // app/api/submit/route.ts
 import { NextResponse } from 'next/server';
-import { supabase } from '@/lib/supabaseClient';
-import { getEvaluation, lookupProductEntry, lookupProductImage, evaluations } from '@/lib/evaluations';
+import { createClient } from '@supabase/supabase-js';
+import { getEvaluation, lookupProductEntry, lookupProductImage } from '@/lib/evaluations';
+
+// validate env vars
+const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
+const supabaseKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
+
+if (!supabaseUrl || !supabaseKey) {
+  throw new Error('Missing Supabase environment variables');
+}
+
+// init supabase client
+const supabase = createClient(supabaseUrl, supabaseKey);
 
 interface SurveyData {
   name: string;
@@ -18,53 +29,62 @@ interface SurveyData {
 
 export async function POST(request: Request) {
   try {
-    const body: SurveyData = await request.json();
+    const data: SurveyData = await request.json();
 
-    // Parse scores as numbers
-    const scoreValues = [
-      Number(body.q1),
-      Number(body.q2),
-      Number(body.q4),
-      Number(body.q5),
-      Number(body.q6),
-      Number(body.q7)
-      // q8 is text input, doesn't contribute to score
-    ];
-    const totalScore = scoreValues.reduce((a, b) => a + b, 0);
+    // calculate total score
+    const totalScore = 
+      parseInt(data.q1 || '0') + 
+      parseInt(data.q2 || '0') + 
+      parseInt(data.q4 || '0') + 
+      parseInt(data.q5 || '0') + 
+      parseInt(data.q6 || '0') + 
+      parseInt(data.q7 || '0');
+
+    // get evaluation
     const evaluation = getEvaluation(totalScore);
-    
+
+    // insert into supabase
+    const { error } = await supabase
+      .from('survey_results')
+      .insert({
+        name: data.name,
+        graduation_year: data.graduation_year,
+        school: data.school,
+        q1: parseInt(data.q1 || '0'),
+        q2: parseInt(data.q2 || '0'),
+        q4: parseInt(data.q4 || '0'),
+        q5: parseInt(data.q5 || '0'),
+        q6: parseInt(data.q6 || '0'),
+        q7: parseInt(data.q7 || '0'),
+        q8: data.q8,
+        score: totalScore,
+        evaluation: evaluation.title,
+        product: evaluation.product
+      });
+
+    if (error) {
+      console.error('Supabase error:', error);
+      return NextResponse.json({ error: 'Database error' }, { status: 500 });
+    }
+
     const productEntry = lookupProductEntry(evaluation.product);
     const displayProduct = productEntry 
       ? `${productEntry["Product Name"]} ${productEntry.Size} ${productEntry.Packaging}` 
       : evaluation.product;
     const image_filename = lookupProductImage(evaluation.product);
 
-    // Save the survey response in Supabase (table "survey_results")
-    const { error } = await supabase.from('survey_results').insert([
-      {
-        name: body.name,
-        graduation_year: body.graduation_year,
-        school: body.school,
-        q1: Number(body.q1),
-        q2: Number(body.q2),
-        q4: Number(body.q4),
-        q5: Number(body.q5),
-        q6: Number(body.q6),
-        q7: Number(body.q7),
-        q8: body.q8,
-        score: totalScore,
-        evaluation: evaluation.title,
-        product: displayProduct
-      }
-    ]);
-    if (error) throw error;
-
     return NextResponse.json({
-      evaluation,
+      totalScore,
+      evaluation: {
+        title: evaluation.title,
+        description: evaluation.description,
+        product: evaluation.product
+      },
       displayProduct,
       image_filename
     });
-  } catch (error: any) {
-    return NextResponse.error();
+  } catch (error) {
+    console.error('Submit error:', error);
+    return NextResponse.json({ error: 'Internal server error' }, { status: 500 });
   }
 }
