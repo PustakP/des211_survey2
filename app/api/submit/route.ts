@@ -5,8 +5,6 @@ import { getEvaluation, lookupProductEntry, lookupProductImage, evaluations } fr
 
 interface SurveyData {
   name: string;
-  roll_number: string;
-  email: string;
   graduation_year: string;
   school: string;
   q1: string;
@@ -31,8 +29,8 @@ export async function POST(request: Request) {
       Number(body.q4),
       Number(body.q5),
       Number(body.q6),
-      Number(body.q7),
-      Number(body.q8)
+      Number(body.q7)
+      // q8 is text input, doesn't contribute to score
     ];
     const totalScore = scoreValues.reduce((a, b) => a + b, 0);
     const evaluation = getEvaluation(totalScore);
@@ -47,8 +45,6 @@ export async function POST(request: Request) {
     const { error } = await supabase.from('survey_results').insert([
       {
         name: body.name,
-        roll_number: body.roll_number,
-        email: body.email,
         graduation_year: body.graduation_year,
         school: body.school,
         q1: Number(body.q1),
@@ -58,7 +54,7 @@ export async function POST(request: Request) {
         q5: Number(body.q5),
         q6: Number(body.q6),
         q7: Number(body.q7),
-        q8: Number(body.q8),
+        q8: body.q8,
         score: totalScore,
         evaluation: evaluation.title,
         product: displayProduct

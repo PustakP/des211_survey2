@@ -39,16 +39,19 @@ function ResultContent() {
     <div className="max-w-2xl mx-auto p-4">
       <Card>
         <CardHeader>
-          <CardTitle className="text-2xl font-bold text-center">{data.title}</CardTitle>
-          <CardDescription className="text-center">
-            {data.description}
+          <CardTitle className="text-2xl font-bold text-center">You Are {data.displayProduct}!</CardTitle>
+          <CardDescription className="text-center text-lg">
+            {data.evaluation.title}
+          </CardDescription>
+          <CardDescription className="text-center mt-2">
+            {data.evaluation.description}
           </CardDescription>
         </CardHeader>
         <CardContent className="space-y-6">
           <div className="flex justify-center">
             <img 
               src={`/images/${data.image_filename}`} 
-              alt="Incentive Product" 
+              alt={data.displayProduct} 
               className="max-w-xs w-full h-auto rounded-lg shadow-md" 
             />
           </div>

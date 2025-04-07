@@ -14,8 +14,6 @@ import { Info } from "lucide-react";
 
 interface FormData {
   name: string;
-  roll_number: string;
-  email: string;
   graduation_year: string;
   school: string;
   q1: string;
@@ -32,8 +30,6 @@ export default function SurveyPage() {
   const router = useRouter();
   const [formData, setFormData] = useState<FormData>({
     name: "",
-    roll_number: "",
-    email: "",
     graduation_year: "",
     school: "",
     q1: "",
@@ -89,24 +85,16 @@ export default function SurveyPage() {
                 <Input id="name" name="name" required onChange={handleChange} />
               </div>
               <div className="space-y-2">
-                <Label htmlFor="roll_number">Roll Number</Label>
-                <Input id="roll_number" name="roll_number" required onChange={handleChange} />
-              </div>
-              <div className="space-y-2">
-                <Label htmlFor="email">Email</Label>
-                <Input id="email" name="email" type="email" required onChange={handleChange} />
-              </div>
-              <div className="space-y-2">
                 <Label htmlFor="graduation_year">Year of Graduation</Label>
                 <Select name="graduation_year" required onValueChange={(value: string) => setFormData({...formData, graduation_year: value})}>
                   <SelectTrigger>
                     <SelectValue placeholder="Select year" />
                   </SelectTrigger>
                   <SelectContent>
-                    <SelectItem value="2024">2024</SelectItem>
                     <SelectItem value="2025">2025</SelectItem>
                     <SelectItem value="2026">2026</SelectItem>
-                    <SelectItem value="2027">2027</SelectItem>
+                    <SelectItem value="2027">2027</SelectItem>                   
+                    <SelectItem value="2028">2028</SelectItem>
                   </SelectContent>
                 </Select>
               </div>
@@ -118,10 +106,9 @@ export default function SurveyPage() {
                   </SelectTrigger>
                   <SelectContent>
                     <SelectItem value="Engineering">Engineering</SelectItem>
-                    <SelectItem value="Business">Business</SelectItem>
-                    <SelectItem value="Humanities">Humanities</SelectItem>
-                    <SelectItem value="Sciences">Sciences</SelectItem>
-                    <SelectItem value="Other">Other</SelectItem>
+                    <SelectItem value="Natural Science">Natural Science</SelectItem>
+                    <SelectItem value="Management and Entrepreneurship">Management and Entrepreneurship</SelectItem>
+                    <SelectItem value="Humanities and Social Sciences">Humanities and Social Sciences</SelectItem>
                   </SelectContent>
                 </Select>
               </div>
@@ -207,31 +194,35 @@ export default function SurveyPage() {
                 },
                 {
                   id: "q8",
-                  question: "8. How effective is your current improvisational system?",
-                  options: [
-                    { text: "Very effective, no issues", value: "0" },
-                    { text: "Mostly effective, minor issues", value: "1" },
-                    { text: "Somewhat effective, regular issues", value: "2" },
-                    { text: "Not very effective, frequent issues", value: "3" },
-                    { text: "Completely ineffective, constant issues", value: "4" }
-                  ]
+                  question: "8. Describe your current improvisational system and its shortcomings:",
+                  type: "textarea"
                 }
               ].map((question) => (
                 <div key={question.id} className="space-y-3">
                   <Label className="text-base font-medium">{question.question}</Label>
-                  <RadioGroup
-                    name={question.id}
-                    required
-                    onValueChange={(value: string) => setFormData({...formData, [question.id]: value})}
-                    className="grid grid-cols-1 gap-3 sm:grid-cols-2"
-                  >
-                    {question.options.map((opt) => (
-                      <div key={opt.value} className="flex items-center space-x-3 rounded-lg border p-4 hover:bg-accent">
-                        <RadioGroupItem value={opt.value} id={`${question.id}-${opt.value}`} />
-                        <Label htmlFor={`${question.id}-${opt.value}`} className="text-sm cursor-pointer">{opt.text}</Label>
-                      </div>
-                    ))}
-                  </RadioGroup>
+                  {question.type === "textarea" ? (
+                    <textarea
+                      name={question.id}
+                      required
+                      onChange={handleChange}
+                      className="w-full min-h-[100px] p-2 border rounded-md"
+                      placeholder="Describe your system and what doesn't work well about it..."
+                    />
+                  ) : (
+                    <RadioGroup
+                      name={question.id}
+                      required
+                      onValueChange={(value: string) => setFormData({...formData, [question.id]: value})}
+                      className="grid grid-cols-1 gap-3 sm:grid-cols-2"
+                    >
+                      {question.options!.map((opt) => (
+                        <div key={opt.value} className="flex items-center space-x-3 rounded-lg border p-4 hover:bg-accent">
+                          <RadioGroupItem value={opt.value} id={`${question.id}-${opt.value}`} />
+                          <Label htmlFor={`${question.id}-${opt.value}`} className="text-sm cursor-pointer">{opt.text}</Label>
+                        </div>
+                      ))}
+                    </RadioGroup>
+                  )}
                 </div>
               ))}
 

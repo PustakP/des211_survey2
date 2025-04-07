@@ -140,7 +140,7 @@ export default function Dashboard() {
         <h2 className="text-xl font-semibold mb-4">Average Scores by Question</h2>
         <div className="h-[300px]">
           <ResponsiveContainer width="100%" height="100%">
-            <LineChart data={questionData}>
+            <LineChart data={questionData.filter(q => q.name !== 'Q8')}>
               <CartesianGrid strokeDasharray="3 3" />
               <XAxis dataKey="name" />
               <YAxis />
@@ -167,15 +167,17 @@ export default function Dashboard() {
         </div>
       </div>
 
-      {/* improvisational systems */}
+      {/* improvisational systems text responses */}
       <div className="bg-white p-6 rounded-lg shadow mb-8">
         <h2 className="text-xl font-semibold mb-4">Improvisational Systems and Shortcomings</h2>
         <div className="space-y-4">
           {data.rawData.map((response, index) => (
-            <div key={index} className="border rounded-lg p-4">
-              <p className="font-medium mb-2">Response #{index + 1}</p>
-              <p className="text-gray-600 whitespace-pre-wrap">{response.q8}</p>
-            </div>
+            response.q8 && (
+              <div key={index} className="border rounded-lg p-4">
+                <p className="font-medium mb-2">Response #{index + 1}</p>
+                <p className="text-gray-600 whitespace-pre-wrap">{response.q8}</p>
+              </div>
+            )
           ))}
         </div>
       </div>
