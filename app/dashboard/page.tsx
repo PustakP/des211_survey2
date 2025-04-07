@@ -26,7 +26,6 @@ interface DashboardData {
   schoolCounts: Record<string, number>;
   evaluationCounts: Record<string, number>;
   questionAverages: Record<string, number>;
-  biggestItems: Record<string, number>;
   rawData: any[];
 }
 
@@ -79,14 +78,20 @@ export default function Dashboard() {
       <h1 className="text-3xl font-bold mb-8">Survey Dashboard</h1>
       
       {/* summary cards */}
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-8">
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-8">
         <div className="bg-white p-6 rounded-lg shadow">
           <h2 className="text-xl font-semibold mb-2">Total Responses</h2>
           <p className="text-3xl font-bold">{data.totalResponses}</p>
         </div>
         <div className="bg-white p-6 rounded-lg shadow">
-          <h2 className="text-xl font-semibold mb-2">Average Score</h2>
+          <h2 className="text-xl font-semibold mb-2">Average Impact Score</h2>
           <p className="text-3xl font-bold">{data.averageScore.toFixed(2)}</p>
+        </div>
+        <div className="bg-white p-6 rounded-lg shadow">
+          <h2 className="text-xl font-semibold mb-2">Most Common Evaluation</h2>
+          <p className="text-3xl font-bold">
+            {Object.entries(data.evaluationCounts).reduce((a, b) => a[1] > b[1] ? a : b)[0]}
+          </p>
         </div>
       </div>
 
@@ -113,25 +118,47 @@ export default function Dashboard() {
                   ))}
                 </Pie>
                 <Tooltip />
+                <Legend />
               </PieChart>
             </ResponsiveContainer>
           </div>
         </div>
 
-        {/* evaluation distribution bar chart */}
+        {/* graduation year distribution bar chart */}
         <div className="bg-white p-6 rounded-lg shadow">
-          <h2 className="text-xl font-semibold mb-4">Responses by Evaluation</h2>
+          <h2 className="text-xl font-semibold mb-4">Responses by Graduation Year</h2>
           <div className="h-[300px]">
             <ResponsiveContainer width="100%" height="100%">
-              <BarChart data={evaluationData}>
+              <BarChart data={Object.entries(
+                data.rawData.reduce((acc, curr) => {
+                  acc[curr.graduation_year] = (acc[curr.graduation_year] || 0) + 1;
+                  return acc;
+                }, {} as Record<string, number>)
+              ).map(([year, count]) => ({ year, count }))}>
                 <CartesianGrid strokeDasharray="3 3" />
-                <XAxis dataKey="name" />
+                <XAxis dataKey="year" />
                 <YAxis />
                 <Tooltip />
-                <Bar dataKey="value" fill="#8884d8" />
+                <Bar dataKey="count" fill="#8884d8" />
               </BarChart>
             </ResponsiveContainer>
           </div>
+        </div>
+      </div>
+
+      {/* evaluation distribution bar chart */}
+      <div className="bg-white p-6 rounded-lg shadow mb-8">
+        <h2 className="text-xl font-semibold mb-4">Responses by Impact Level</h2>
+        <div className="h-[300px]">
+          <ResponsiveContainer width="100%" height="100%">
+            <BarChart data={evaluationData}>
+              <CartesianGrid strokeDasharray="3 3" />
+              <XAxis dataKey="name" />
+              <YAxis />
+              <Tooltip />
+              <Bar dataKey="value" fill="#8884d8" />
+            </BarChart>
+          </ResponsiveContainer>
         </div>
       </div>
 
@@ -147,22 +174,6 @@ export default function Dashboard() {
               <Tooltip />
               <Line type="monotone" dataKey="value" stroke="#8884d8" />
             </LineChart>
-          </ResponsiveContainer>
-        </div>
-      </div>
-
-      {/* biggest items bar chart */}
-      <div className="bg-white p-6 rounded-lg shadow mb-8">
-        <h2 className="text-xl font-semibold mb-4">Most Common Big Items</h2>
-        <div className="h-[300px]">
-          <ResponsiveContainer width="100%" height="100%">
-            <BarChart data={Object.entries(data.biggestItems).map(([name, value]) => ({ name, value }))}>
-              <CartesianGrid strokeDasharray="3 3" />
-              <XAxis dataKey="name" />
-              <YAxis />
-              <Tooltip />
-              <Bar dataKey="value" fill="#8884d8" />
-            </BarChart>
           </ResponsiveContainer>
         </div>
       </div>

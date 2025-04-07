@@ -9,7 +9,6 @@ interface SurveyData {
   school: string;
   q1: string;
   q2: string;
-  q3: string;
   q4: string;
   q5: string;
   q6: string;
@@ -25,7 +24,6 @@ export async function POST(request: Request) {
     const scoreValues = [
       Number(body.q1),
       Number(body.q2),
-      Number(body.q3),
       Number(body.q4),
       Number(body.q5),
       Number(body.q6),
@@ -49,7 +47,6 @@ export async function POST(request: Request) {
         school: body.school,
         q1: Number(body.q1),
         q2: Number(body.q2),
-        q3: Number(body.q3),
         q4: Number(body.q4),
         q5: Number(body.q5),
         q6: Number(body.q6),

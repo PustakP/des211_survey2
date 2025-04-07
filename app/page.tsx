@@ -140,19 +140,8 @@ export default function SurveyPage() {
                   ]
                 },
                 {
-                  id: "q3",
-                  question: "3. Have you tried to improvise your storage space?",
-                  options: [
-                    { text: "No, I haven't", value: "0" },
-                    { text: "Yes, but it barely works", value: "1" },
-                    { text: "Yes, it somewhat helps", value: "2" },
-                    { text: "Yes, and it works well", value: "3" },
-                    { text: "Yes, it's a perfect fix", value: "4" }
-                  ]
-                },
-                {
                   id: "q4",
-                  question: "4. What is the biggest item you carry to the washroom?",
+                  question: "3. What is the biggest item you carry to the washroom?",
                   options: [
                     { text: "100ml - 500ml (small bottles)", value: "0" },
                     { text: "500ml - 1L (medium bottles)", value: "1" },
@@ -163,7 +152,7 @@ export default function SurveyPage() {
                 },
                 {
                   id: "q5",
-                  question: "5. What is the maximum number of items you carry to the shower?",
+                  question: "4. What is the maximum number of items you carry to the shower?",
                   options: [
                     { text: "1-2 items", value: "0" },
                     { text: "3-4 items", value: "1" },
@@ -174,7 +163,7 @@ export default function SurveyPage() {
                 },
                 {
                   id: "q6",
-                  question: "6. Would you like an extra compartment to carry menstrual products?",
+                  question: "5. Would you like an extra compartment to carry menstrual products?",
                   options: [
                     { text: "I don't menstruate", value: "0" },
                     { text: "Yes", value: "4" },
@@ -183,7 +172,7 @@ export default function SurveyPage() {
                 },
                 {
                   id: "q7",
-                  question: "7. Have you already tried organizing your toiletries in your bathroom?",
+                  question: "6. Have you already tried organizing your toiletries in your bathroom?",
                   options: [
                     { text: "Yes, successfully", value: "4" },
                     { text: "Yes, but only partially effective", value: "3" },
@@ -194,7 +183,7 @@ export default function SurveyPage() {
                 },
                 {
                   id: "q8",
-                  question: "8. Describe your current improvisational system and its shortcomings:",
+                  question: "7. Describe your current improvisational system and its shortcomings:",
                   type: "textarea"
                 }
               ].map((question) => (
