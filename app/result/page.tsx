@@ -39,9 +39,9 @@ function ResultContent() {
     <div className="max-w-2xl mx-auto p-4">
       <Card>
         <CardHeader>
-          <CardTitle className="text-2xl font-bold text-center">You Are {data.displayProduct}!</CardTitle>
+          <CardTitle className="text-2xl font-bold text-center">{data.title}</CardTitle>
           <CardDescription className="text-center">
-            Thank you for filling out our survey!
+            {data.description}
           </CardDescription>
         </CardHeader>
         <CardContent className="space-y-6">

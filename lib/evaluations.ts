@@ -12,31 +12,31 @@ export const evaluations: Evaluation[] = [
     range: [0, 1, 2, 3],
     title: "Minimal Impact",
     description: "Your routine is hardly disrupted.",
-    product: "Liril Refreshing Soap"
+    product: "Biotique Bio Neem Purifying Shampoo"
   },
   {
     range: [4, 5, 6],
     title: "Slightly Affected",
     description: "The issue barely causes inconvenience.",
-    product: "Hamam Soft Soap"
+    product: "Biotique Anti Hair Fall Shampoo"
   },
   {
     range: [7, 8, 9],
     title: "Mildly Affected",
     description: "You experience minor daily clutter.",
-    product: "Lifebuoy Total 10 Soap"
+    product: "Mamaearth Onion Shampoo for Hair Fall"
   },
   {
     range: [10, 11, 12],
     title: "Noticeably Affected",
     description: "The storage issue slightly disrupts your routine.",
-    product: "Dove Deeply Nourishing Body Wash"
+    product: "Himalaya Anti-Dandruff Shampoo"
   },
   {
     range: [13, 14, 15],
     title: "Moderately Affected",
     description: "There's clear inconvenience; a better solution is needed.",
-    product: "Nivea Fresh Active Body Wash"
+    product: "Dove Daily Shine Conditioner"
   },
   {
     range: [16, 17, 18],
@@ -66,7 +66,7 @@ export const evaluations: Evaluation[] = [
     range: [29, 30, 31, 32],
     title: "In Crisis",
     description: "Your bathroom is in chaos – an immediate solution is needed!",
-    product: "Tresemme Moisture Rich Shampoo"
+    product: "Tresemme Keratin Smooth Conditioner"
   }
 ];
 

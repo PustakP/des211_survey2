@@ -26,6 +26,7 @@ interface DashboardData {
   schoolCounts: Record<string, number>;
   evaluationCounts: Record<string, number>;
   questionAverages: Record<string, number>;
+  biggestItems: Record<string, number>;
   rawData: any[];
 }
 
@@ -147,6 +148,35 @@ export default function Dashboard() {
               <Line type="monotone" dataKey="value" stroke="#8884d8" />
             </LineChart>
           </ResponsiveContainer>
+        </div>
+      </div>
+
+      {/* biggest items bar chart */}
+      <div className="bg-white p-6 rounded-lg shadow mb-8">
+        <h2 className="text-xl font-semibold mb-4">Most Common Big Items</h2>
+        <div className="h-[300px]">
+          <ResponsiveContainer width="100%" height="100%">
+            <BarChart data={Object.entries(data.biggestItems).map(([name, value]) => ({ name, value }))}>
+              <CartesianGrid strokeDasharray="3 3" />
+              <XAxis dataKey="name" />
+              <YAxis />
+              <Tooltip />
+              <Bar dataKey="value" fill="#8884d8" />
+            </BarChart>
+          </ResponsiveContainer>
+        </div>
+      </div>
+
+      {/* improvisational systems */}
+      <div className="bg-white p-6 rounded-lg shadow mb-8">
+        <h2 className="text-xl font-semibold mb-4">Improvisational Systems and Shortcomings</h2>
+        <div className="space-y-4">
+          {data.rawData.map((response, index) => (
+            <div key={index} className="border rounded-lg p-4">
+              <p className="font-medium mb-2">Response #{index + 1}</p>
+              <p className="text-gray-600 whitespace-pre-wrap">{response.q8}</p>
+            </div>
+          ))}
         </div>
       </div>
     </div>

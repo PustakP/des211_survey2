@@ -46,7 +46,7 @@ export default function SurveyPage() {
     q8: ""
   });
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
@@ -165,57 +165,55 @@ export default function SurveyPage() {
                 },
                 {
                   id: "q4",
-                  question: "4. How satisfied are you with the current solutions (if any)?",
+                  question: "4. What is the biggest item you carry to the washroom?",
                   options: [
-                    { text: "Very satisfied", value: "0" },
-                    { text: "Somewhat satisfied", value: "1" },
-                    { text: "Neutral", value: "2" },
-                    { text: "Dissatisfied", value: "3" },
-                    { text: "Very dissatisfied", value: "4" }
+                    { text: "100ml - 500ml (small bottles)", value: "0" },
+                    { text: "500ml - 1L (medium bottles)", value: "1" },
+                    { text: "1L - 1.5L (large bottles)", value: "2" },
+                    { text: "1.5L - 2L (very large bottles)", value: "3" },
+                    { text: "2L+ (extremely large bottles)", value: "4" }
                   ]
                 },
                 {
                   id: "q5",
-                  question: "5. How much does the storage issue affect your daily routine?",
+                  question: "5. What is the maximum number of items you carry to the shower?",
                   options: [
-                    { text: "Not at all", value: "0" },
-                    { text: "A little", value: "1" },
-                    { text: "Moderately", value: "2" },
-                    { text: "Significantly", value: "3" },
-                    { text: "It's a major inconvenience", value: "4" }
+                    { text: "1-2 items", value: "0" },
+                    { text: "3-4 items", value: "1" },
+                    { text: "5-6 items", value: "2" },
+                    { text: "7-8 items", value: "3" },
+                    { text: "9+ items", value: "4" }
                   ]
                 },
                 {
                   id: "q6",
-                  question: "6. Would you prefer a reusable solution (e.g., solid shampoo bars) rather than plastic bottles?",
+                  question: "6. Would you like an extra compartment to carry menstrual products?",
                   options: [
-                    { text: "Definitely reusable", value: "4" },
-                    { text: "Prefer reusable", value: "3" },
-                    { text: "Neutral", value: "2" },
-                    { text: "Prefer disposable", value: "1" },
-                    { text: "No preference", value: "0" }
+                    { text: "I don't menstruate", value: "0" },
+                    { text: "Yes", value: "4" },
+                    { text: "No", value: "0" }
                   ]
                 },
                 {
                   id: "q7",
-                  question: "7. Should the storage solution be provided free to students or be a paid option?",
-                  options: [
-                    { text: "Should be free", value: "4" },
-                    { text: "Mostly free with minimal cost", value: "3" },
-                    { text: "Neutral", value: "2" },
-                    { text: "Paid but affordable", value: "1" },
-                    { text: "No opinion", value: "0" }
-                  ]
-                },
-                {
-                  id: "q8",
-                  question: "8. Have you already tried organizing your toiletries in your bathroom?",
+                  question: "7. Have you already tried organizing your toiletries in your bathroom?",
                   options: [
                     { text: "Yes, successfully", value: "4" },
                     { text: "Yes, but only partially effective", value: "3" },
                     { text: "Tried a little", value: "2" },
                     { text: "Not really", value: "1" },
                     { text: "Never", value: "0" }
+                  ]
+                },
+                {
+                  id: "q8",
+                  question: "8. How effective is your current improvisational system?",
+                  options: [
+                    { text: "Very effective, no issues", value: "0" },
+                    { text: "Mostly effective, minor issues", value: "1" },
+                    { text: "Somewhat effective, regular issues", value: "2" },
+                    { text: "Not very effective, frequent issues", value: "3" },
+                    { text: "Completely ineffective, constant issues", value: "4" }
                   ]
                 }
               ].map((question) => (
