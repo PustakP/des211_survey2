@@ -216,6 +216,7 @@ export default function SurveyPage() {
               ))}
 
               <Button type="submit" className="w-full">Submit Survey</Button>
+              <div className="text-gray-500 content-center justify-center w-full"><p>Might take a while to load after pressing submit. Please wait.</p></div>
             </div>
           </form>
         </CardContent>
